@@ -26,7 +26,7 @@ export const Layout = ({ children, title = 'DAO Events: Zitrone' }: Props) => {
       navbar={<MainLinks opened={opened} />}
       header={
         <Header height={65} p="lg" className={classes.header}>
-          <div style={{ display: 'flex', alignItems: 'center', height: '80%' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
               <Burger
                 opened={opened}

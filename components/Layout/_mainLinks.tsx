@@ -101,7 +101,7 @@ export function MainLinks({ opened = false }: Props) {
 
   return (
     <Navbar
-      p="md"
+      p="lg"
       hiddenBreakpoint="sm"
       width={{ sm: 200, lg: 300 }}
       className={classes.navbar}
