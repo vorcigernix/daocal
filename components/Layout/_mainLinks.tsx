@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { createStyles, Navbar, Group, Code, ScrollArea } from '@mantine/core';
 import {
   BellRinging,
-  SwitchHorizontal,
   Logout,
   Calendar,
   ChartBubble,
@@ -71,10 +71,10 @@ const useStyles = createStyles((theme, _params, getRef) => {
 });
 
 const data = [
-  { link: '', label: 'Highlights', icon: BellRinging },
-  { link: '', label: 'Calendar', icon: Calendar },
-  { link: '', label: 'My DAOs', icon: ChartBubble },
-  { link: '', label: 'About', icon: InfoCircle },
+  { link: '/', label: 'Highlights', icon: BellRinging },
+  { link: '/calendar', label: 'Calendar', icon: Calendar },
+  { link: '/daos', label: 'My DAOs', icon: ChartBubble },
+  { link: '/about', label: 'About', icon: InfoCircle },
 ];
 
 type Props = {
@@ -86,18 +86,17 @@ export function MainLinks({ opened = false }: Props) {
   const [active, setActive] = useState('Higlights');
 
   const links = data.map((item) => (
-    <a
-      className={cx(classes.link, { [classes.linkActive]: item.label === active })}
-      href={item.link}
-      key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(item.label);
-      }}
-    >
-      <item.icon className={classes.linkIcon} />
-      <span>{item.label}</span>
-    </a>
+    <Link href={item.link} key={item.link} passHref>
+      <a
+        className={cx(classes.link, { [classes.linkActive]: item.label === active })}
+        onClick={(event) => {
+          setActive(item.label);
+        }}
+      >
+        <item.icon className={classes.linkIcon} />
+        <span>{item.label}</span>
+      </a>
+    </Link>
   ));
 
   return (
