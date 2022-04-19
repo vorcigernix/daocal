@@ -11,6 +11,7 @@ import {
   createStyles,
   useMantineTheme,
   Stack,
+  Tooltip,
 } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
@@ -24,6 +25,8 @@ const useStyles = createStyles((theme) => ({
     paddingRight: theme.spacing.md,
     paddingBottom: theme.spacing.md,
   },
+
+  description: { height: 200 },
 
   like: {
     color: theme.colors.red[6],
@@ -66,35 +69,48 @@ export function BadgeCard({ image, title, description, dao, badges }: BadgeCardP
       <Card.Section>
         <Image src={image} alt={title} height={200} />
       </Card.Section>
-        <Card.Section className={classes.section} mt="md">
+      <Card.Section className={classes.section} mt="md">
+        <div className={classes.description}>
           <Group position="apart">
             <Text size="lg" weight={500}>
               {title}
             </Text>
             <Badge size="sm">{dao}</Badge>
           </Group>
-          <Text size="sm" mt="xs">
-            {description}
-          </Text>
-        </Card.Section>
+          <Tooltip
+            wrapLines
+            width={300}
+            position="bottom"
+            withArrow
+            transition="slide-down"
+            openDelay={500}
+            transitionDuration={200}
+            label={description}
+          >
+            <Text size="sm" mt="xs" lineClamp={8}>
+              {description}
+            </Text>
+          </Tooltip>
+        </div>
+      </Card.Section>
 
-        <Card.Section className={classes.section}>
-          <Text mt="md" className={classes.label} color="dimmed">
-            Perfect for you, if you look for
-          </Text>
-          <Group spacing={7} mt={5}>
-            {features}
-          </Group>
-        </Card.Section>
-
-        <Group mt="xs">
-          <Button radius="md" style={{ flex: 1 }}>
-            Attend
-          </Button>
-          <ActionIcon variant="default" radius="md" size={36}>
-            <Heart size={18} className={classes.like} />
-          </ActionIcon>
+      <Card.Section className={classes.section}>
+        <Text mt="md" className={classes.label} color="dimmed">
+          Perfect for you, if you look for
+        </Text>
+        <Group spacing={7} mt={5}>
+          {features}
         </Group>
+      </Card.Section>
+
+      <Group mt="xs">
+        <Button radius="md" style={{ flex: 1 }}>
+          Attend
+        </Button>
+        <ActionIcon variant="default" radius="md" size={36}>
+          <Heart size={18} className={classes.like} />
+        </ActionIcon>
+      </Group>
     </Card>
   );
 }
