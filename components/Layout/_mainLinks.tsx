@@ -17,6 +17,7 @@ import {
   ChartBubble,
   InfoCircle,
   CirclePlus,
+  Bookmarks,
 } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme, _params, getRef) => {
@@ -81,6 +82,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const data = [
   { link: '/', label: 'Highlights', icon: BellRinging },
+  { link: '/myevents', label: 'My Events', icon: Bookmarks },
   { link: '/calendar', label: 'Calendar', icon: Calendar },
   { link: '/daos', label: 'My DAOs', icon: ChartBubble },
   { link: '/about', label: 'About', icon: InfoCircle },

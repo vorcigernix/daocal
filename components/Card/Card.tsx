@@ -13,6 +13,7 @@ import {
   Stack,
   Tooltip,
 } from '@mantine/core';
+import { default as dayjs } from 'dayjs';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -43,6 +44,7 @@ interface BadgeCardProps {
   image: string;
   title: string;
   dao: string;
+  eventtime: string;
   description: string;
   badges: {
     emoji: string;
@@ -50,7 +52,7 @@ interface BadgeCardProps {
   }[];
 }
 
-export function BadgeCard({ image, title, description, dao, badges }: BadgeCardProps) {
+export function BadgeCard({ image, title, description, dao, eventtime, badges }: BadgeCardProps) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
 
@@ -101,6 +103,11 @@ export function BadgeCard({ image, title, description, dao, badges }: BadgeCardP
         <Group spacing={7} mt={5}>
           {features}
         </Group>
+      </Card.Section>
+      <Card.Section>
+          <Text m="md" className={classes.label}>
+          {dayjs(eventtime).format('MMMM Dd YYYY, h:mm:ss a')}
+          </Text>
       </Card.Section>
 
       <Group mt="xs">
