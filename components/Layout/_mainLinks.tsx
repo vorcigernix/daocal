@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { createStyles, Navbar, Group, Code, ScrollArea } from '@mantine/core';
+import {
+  createStyles,
+  Navbar,
+  Group,
+  Code,
+  ScrollArea,
+  Box,
+  Paper,
+  Container,
+} from '@mantine/core';
 import {
   BellRinging,
   Logout,
@@ -14,7 +23,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
   return {
     navbar: {
-      backgroundColor: theme.colors[theme.primaryColor][6],
+      background: theme.fn.linearGradient(120, theme.colors[theme.primaryColor][6], 'teal'),
       borderRadius: theme.radius.lg,
     },
 
@@ -100,28 +109,29 @@ export function MainLinks({ opened = false }: Props) {
   ));
 
   return (
-    <Navbar
-      p="lg"
-      hiddenBreakpoint="sm"
-      width={{ sm: 200, lg: 300 }}
-      className={classes.navbar}
-      hidden={!opened}
-    >
-      <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
-        {links}
-      </Navbar.Section>
+      <Navbar
+        p="lg"
+        hiddenBreakpoint="sm"
+        width={{ sm: 200, lg: 300 }}
+        className={classes.navbar}
+        hidden={!opened}
+      >
+        <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+          {links}
+        </Navbar.Section>
 
-      <Navbar.Section className={classes.footer}>
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-          <CirclePlus className={classes.linkIcon} />
-          <span>Add Event</span>
-        </a>
+        <Navbar.Section className={classes.footer}>
+          <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+            <CirclePlus className={classes.linkIcon} />
+            <span>Add Event</span>
+          </a>
 
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-          <Logout className={classes.linkIcon} />
-          <span>0x5bbiushd98679ccc</span>
-        </a>
-      </Navbar.Section>
-    </Navbar>
+          <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+            <Logout className={classes.linkIcon} />
+            <span>0x5bbiushd98679ccc</span>
+          </a>
+        </Navbar.Section>
+      </Navbar>
+
   );
 }
