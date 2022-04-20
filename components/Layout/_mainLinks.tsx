@@ -82,7 +82,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const data = [
   { link: '/', label: 'Highlights', icon: BellRinging },
-  { link: '/myevents', label: 'My Events', icon: Bookmarks },
+  { link: '/myevents', label: 'Attending', icon: Bookmarks },
   { link: '/calendar', label: 'Calendar', icon: Calendar },
   { link: '/daos', label: 'My DAOs', icon: ChartBubble },
   { link: '/about', label: 'About', icon: InfoCircle },
