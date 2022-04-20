@@ -18,6 +18,7 @@ import { default as dayjs } from 'dayjs';
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor: theme.colors.dark[6],
+    color: "white",
   },
 
   section: {
