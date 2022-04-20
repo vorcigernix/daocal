@@ -26,7 +26,31 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
       </Head>
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+        <MantineProvider
+          theme={{
+            colorScheme,
+            fontFamily: 'Noto, sans-serif',
+            fontFamilyMonospace: 'Monaco, Courier, monospace',
+            headings: { fontFamily: 'Inter, sans-serif' },
+            colors: {
+              brand: [
+                '#f1fde0',
+                '#dcf4b9',
+                '#c7eb91',
+                '#b1e367',
+                '#9cdb3d',
+                '#83c224',
+                '#65971a',
+                '#486c10',
+                '#2a4106',
+                '#0c1700',
+              ],
+            },
+            primaryColor: 'brand',
+          }}
+          withGlobalStyles
+          withNormalizeCSS
+        >
           <Layout>
             <NotificationsProvider>
               <Component {...pageProps} />
@@ -39,5 +63,5 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 }
 
 App.getInitialProps = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
-  colorScheme: getCookie('mantine-color-scheme', ctx) || 'light',
+  colorScheme: getCookie('mantine-color-scheme', ctx) || 'dark',
 });
