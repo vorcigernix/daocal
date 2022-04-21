@@ -24,8 +24,12 @@ const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
   return {
     navbar: {
+      borderRight: 0,
+    },
+    navbox: {
       background: theme.fn.linearGradient(120, theme.colors[theme.primaryColor][6], 'teal'),
       borderRadius: theme.radius.lg,
+      padding: theme.spacing.lg,
     },
 
     version: {
@@ -111,13 +115,14 @@ export function MainLinks({ opened = false }: Props) {
   ));
 
   return (
-      <Navbar
-        p="lg"
-        hiddenBreakpoint="sm"
-        width={{ sm: 200, lg: 300 }}
-        className={classes.navbar}
-        hidden={!opened}
-      >
+    <Navbar
+      p="lg"
+      hiddenBreakpoint="sm"
+      width={{ sm: 200, lg: 300 }}
+      hidden={!opened}
+      className={classes.navbar}
+    >
+      <Box className={classes.navbox}>
         <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
           {links}
         </Navbar.Section>
@@ -133,7 +138,7 @@ export function MainLinks({ opened = false }: Props) {
             <span>0x5bbiushd98679ccc</span>
           </a>
         </Navbar.Section>
-      </Navbar>
-
+      </Box>
+    </Navbar>
   );
 }

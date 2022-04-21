@@ -13,6 +13,9 @@ const useStyles = createStyles((theme) => ({
   header: {
     borderBottom: 0,
   },
+  navbar: {
+    borderRight: 0,
+  },
 }));
 
 export const Layout = ({ children, title = 'DAO Events: Zitrone' }: Props) => {
