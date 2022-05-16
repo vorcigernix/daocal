@@ -13,3 +13,8 @@ npx hardhat node
 node scripts/sample-script.js
 npx hardhat help
 ```
+
+# set up node.js
+ ```shell
+ nvm use node 16
+ ```
