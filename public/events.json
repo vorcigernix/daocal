@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "Celestial",
+    "Type": "onetime",
+    "Description": "You gain the ability to cast the <i>celestial</i> spell once per long rest. You can’t do so again until you finish a long rest.",
+    "Event_Url": "https://www.dndbeyond.com/characters/classes/bard/celestial",
+    "Meet_Url": "https://meet.dndbeyond.com/2676",
+    "Access": 0,
+    "DAO": "D_D",
+    "Start": "05/17/2022 @ 8:00am",
+    "Finish": "05/22/2022 @ 8:00am",
+    "Slots": 0,
+    "Attendants": [
+      {
+        "Name": "Dylan",
+        "Discord": "Dylan#9076"
+      }
+    ],
+    "Cost": 0,
+    "Location": "",
+    "Host_Discord": "Vorcigernix#1185"
+  }
+]
