@@ -12,26 +12,14 @@ export default function EventCalendar() {
         onChange={setValue}
         renderDay={(date) => {
           const day = dayjs(date);
-          let output;
           var customParseFormat = require('dayjs/plugin/customParseFormat');
           dayjs.extend(customParseFormat);
           //console.log((dayjs("05/18/2022 @ 8:00am", "MM/DD/YYYY @ h:mma")));
-          console.log(day);
-          //let todayEvent = Events.find(event => dayjs(day).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma")))
-          Events.forEach(event => {
-            if(day.isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"),"day")/*day == dayjs(event.Start, "MM/DD/YYYY @ h:mma")*/){
-              console.log("match");
-              /*return (
-                  <div>{day.date().toString() + '■'}</div>
-            );*/
-                output = <div>{day.date().toString() + '■'}</div>;
-            }
-            else {
-              output = <div>{day.date().toString()}</div>;
-            }
-          });
+          //console.log(day);
+          let todayEvent = Events.find(event => dayjs(day).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"),"day"))
+
           return (
-              output
+              <div>{todayEvent ? day.date().toString() + '■' : day.date().toString()}</div>
           );
         }}
       />
