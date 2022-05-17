@@ -1,6 +1,7 @@
 import { MantineProvider } from "@mantine/core";
 import React from 'react';
 import Link from 'next/link';
+import { FaqSimple } from "../components/Card/question";
 import {
   createStyles,
   Image,
@@ -15,8 +16,10 @@ import {
 import { Check } from 'tabler-icons-react';
 import image from '../public/favicon.svg';
 import { lutimes } from "fs";
+import { collectAssets } from "next/dist/build/webpack/plugins/middleware-plugin";
 
 export default function About() {
+  const { classes } = useStyles();
     return <MantineProvider      theme={{
       // Override any other properties from default theme
       spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
@@ -38,6 +41,12 @@ export default function About() {
       primaryColor: 'brand',
     }}>
       <HeroBullets></HeroBullets>
+      <Title align="center" className={classes.title}>
+        Frequently Asked Questions
+      </Title>
+      <FaqSimple title="How do i reset my password" text="ujfgvukasgvklauiusadgfiausgiusadvuiasgbviusdgb"></FaqSimple>
+      <FaqSimple title="a" text="sgsdgdsgsdyeyjtjgjfjshdhd"></FaqSimple>
+      
     </MantineProvider>
   }
   const useStyles = createStyles((theme) => ({
@@ -74,6 +83,7 @@ export default function About() {
       fontSize: 44,
       lineHeight: 1.2,
       fontWeight: 900,
+      marginBottom: theme.spacing.xl * 1.5,
   
       [theme.fn.smallerThan('xs')]: {
         fontSize: 28,
