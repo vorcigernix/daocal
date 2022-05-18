@@ -1,45 +1,111 @@
 import Events from "../public/events.json";
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Calendar } from '@mantine/dates';
-import { Group, useMantineTheme, createStyles} from "@mantine/core";
+import { Group, useMantineTheme, createStyles, Indicator, Badge, Grid } from "@mantine/core";
 import dayjs from 'dayjs';
-import { Container } from "tabler-icons-react";
+import { Container, RadiusTopRight, Underline } from "tabler-icons-react";
+import { BadgeCard } from "../components/Card/Card";
+import { rootCertificates } from "tls";
+import { isMobile, isBrowser } from "react-device-detect";
 
 
 const useStyles = createStyles((theme) => ({
-  altbutton: {
-    color: theme.white,
-    backgroundColor: theme.colors.blue[6],
-    border: 0,
-    borderRadius: theme.radius.md,
-    //padding: `${theme.spacing.sm}px ${theme.spacing.lg}px`,
-    cursor: 'pointer',
-    //margin: theme.spacing.md,
-
-    // Use pseudo-classes just like you would in Sass
-    '&:hover': {
-      backgroundColor: theme.colors.blue[9],
-    },
-
-    '&:not(:first-of-type)': {
-      backgroundColor: theme.colors.violet[6],
-
-      // pseudo-classes can be nested
+  /*   altbutton: {
+      color: theme.white,
+      backgroundColor: theme.colors.blue[6],
+      border: 0,
+      borderRadius: 0,
+      //padding: `${theme.spacing.sm}px ${theme.spacing.lg}px`,
+      cursor: 'pointer',
+      //margin: theme.spacing.md,
+  
+      // Use pseudo-classes just like you would in Sass
       '&:hover': {
-        backgroundColor: theme.colors.violet[9],
+        backgroundColor: theme.colors.blue[9],
+      },
+  
+      '&:not(:first-of-type)': {
+        backgroundColor: theme.colors.violet[6],
+  
+        // pseudo-classes can be nested
+        '&:hover': {
+          backgroundColor: theme.colors.violet[9],
+        },
       },
     },
+    cell: {
+      border: `1px solid ${
+        theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+      }`,
+      borderRadius: 0,
+    },
+    day: { borderRadius: 0, height: 70, fontSize: theme.fontSizes.lg },
+    weekday: { fontSize: theme.fontSizes.lg },
+    weekdayCell: {
+      fontSize: theme.fontSizes.xl,
+      backgroundColor:
+        theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
+      border: `1px solid ${
+        theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+      }`,
+      height: 70,
+    },
+     */
+  eventCell: {
+
+    border: `1px solid ${theme.colors.brand[4]
+      }`,
+    borderRadius: 0,
+
+
   },
+  eventName: {
+    maxHeight: 100,
+  }
 }));
 
 export default function EventCalendar() {
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = useState<Date>(new Date());
+  const [eventDetail, setEventDetail] = useState<ReactNode>()
   const { classes } = useStyles();
+  let card;
+
+  function CalendarChange(e: string | number | Date | null) {
+    e && setValue(new Date(e))
+
+    var customParseFormat = require('dayjs/plugin/customParseFormat');
+    dayjs.extend(customParseFormat);
+    let selectEvent = Events.find(event => dayjs(e).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
+    if (selectEvent) {
+      card = <BadgeCard badges={selectEvent.Badges} title={selectEvent.Name} image={selectEvent.Image} dao={selectEvent.DAO} eventtime={selectEvent.Start} description={selectEvent.Description}></BadgeCard>
+      setEventDetail(card)
+    }
+  }
   return (
-    <Group position="left" >
-      <Calendar
+    <Grid columns={3}>
+      <Grid.Col span={isBrowser ? 2 : 3}>
+        <Calendar
         value={value}
-        onChange={setValue}
+        fullWidth
+        size="xl"
+        allowLevelChange={false}
+        onChange={(e) => CalendarChange(e)}
+        styles={(theme) => ({
+          cell: {
+            border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+              }`,
+          },
+          day: { borderRadius: 0, height: 100, fontSize: theme.fontSizes.lg },
+          weekday: { fontSize: theme.fontSizes.lg },
+          weekdayCell: {
+            fontSize: theme.fontSizes.xl,
+            backgroundColor:
+              theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
+            border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+              }`,
+            height: 100,
+          },
+        })}
         renderDay={(date) => {
           const day = dayjs(date);
           var customParseFormat = require('dayjs/plugin/customParseFormat');
@@ -48,7 +114,7 @@ export default function EventCalendar() {
           //console.log(day);
           let todayEvent = Events.find(event => dayjs(day).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
           if (todayEvent)
-            return <div className={classes.altbutton}>{day.date().toString() + '■'}</div>
+            return <Group className={classes.eventName} direction="column" spacing={0} position="center" my={0} py={0}><u>{day.date().toString()}</u><Badge my={0} py={0} color="blue" variant="filled">{todayEvent.Name}</Badge></Group>
           else return <div>{day.date().toString()}</div>
           // return (
           //   <div>{todayEvent ? day.date().toString() + '■' : day.date().toString()}</div>
@@ -70,6 +136,10 @@ export default function EventCalendar() {
       // }
       // }
       />
-    </Group>
+      </Grid.Col>
+      <Grid.Col span={isBrowser ? 1 : 3}>
+        {eventDetail}
+      </Grid.Col>
+    </Grid>
   );
 }
