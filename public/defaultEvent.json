@@ -1,0 +1,34 @@
+[
+  {
+    "Name": "No events?",
+    "Type": "onetime",
+    "Image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fzeroonestudio.com%2Fwp-content%2Fuploads%2FMegamind_004nm.jpg&f=1&nofb=1https://images.unsplash.com/photo-1652862730730-26712af6bcac?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170",
+    "Description": "You have no events here",
+    "Event_Url": "https://www.youtube.com/watch?v=HyWYpM_S-2c",
+    "Meet_Url": "https://www.youtube.com/watch?v=HyWYpM_S-2c",
+    "Access": 0,
+    "DAO": "dao name",
+    "Start": "01/01/1984 @ 0:00am",
+    "Finish": "01/01/1984 @ 1:00am",
+    "Slots": 0,
+    "Attendants": [
+      {
+        "Name": "Lubomír Volný",
+        "Discord": "volny#9076"
+      }
+    ],
+    "Cost": 0,
+    "Location": "",
+    "Host_Discord": "Vorcigernix#1185",
+    "Badges": [
+      {
+        "emoji": ":)",
+        "label": "Open call"
+      },
+      {
+        "emoji": ":]",
+        "label": "Regular call"
+      }
+    ]
+  }
+]

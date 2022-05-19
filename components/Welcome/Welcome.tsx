@@ -1,8 +1,9 @@
 import { createStyles, SimpleGrid } from '@mantine/core';
 import { BadgeCard } from '../Card/Card';
+import data from '../../public/events.json'
 
 export function Welcome() {
-  const data = [
+  /* const data = [
     {
       image:
         'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
@@ -49,7 +50,7 @@ export function Welcome() {
         },
       ],
     },
-  ];
+  ]; */
 
   return (
     <SimpleGrid
@@ -63,13 +64,13 @@ export function Welcome() {
     >
       {data.map((item, i) => (
         <BadgeCard
-          key={item.title + i}
-          image={item.image}
-          title={item.title}
-          dao={item.dao}
-          eventtime={item.eventtime}
-          description={item.description}
-          badges={item.badges}
+          key={item.Name + i}
+          image={item.Image}
+          title={item.Name}
+          dao={item.DAO}
+          eventtime={item.Start}
+          description={item.Description}
+          badges={item.Badges}
         />
       ))}
     </SimpleGrid>

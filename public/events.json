@@ -30,5 +30,77 @@
         "label": "Regular call"
       }
     ]
+  },
+  {
+    "Name": "DAOPlanet TownHall",
+    "Type": "onetime",
+    "Image": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    "Description": "Come join us on the regular Town Hall, discussing governance issues, plans for the future and whether spaghetti is a pasta or not.",
+    "Event_Url": "https://www.dndbeyond.com/characters/classes/bard/celestial",
+    "Meet_Url": "https://meet.dndbeyond.com/2676",
+    "Access": 0,
+    "DAO": "DAOPlanet",
+    "Start": "05/18/2022 @ 0:00am",
+    "Finish": "01//2020 @ 8:00am",
+    "Slots": 0,
+    "Attendants": [
+      {
+        "Name": "Dylan",
+        "Discord": "Dylan#9076"
+      }
+    ],
+    "Cost": 0,
+    "Location": "",
+    "Host_Discord": "Vorcigernix#1185",
+    "Badges": [
+      {
+        "emoji": "",
+        "label": "Governance"
+      },
+      {
+        "emoji": "",
+        "label": "Regular"
+      },
+      {
+        "emoji": "",
+        "label": "Open Call"
+      }
+    ]
+  },
+  {
+    "Name": "Polygon Village",
+    "Type": "onetime",
+    "Image": "https://images.unsplash.com/photo-1598209494655-b8e249540dfc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+    "Description": "Talk of the town: #PolygonVillage brings Experts Talks. Sandeep Nailwal and Sanket Shah to kick off the discussion. Get to know everything about Welcome Vouchers and Grants. On the importance of network effect, grants, welcome vouchers, and more. Learn how to apply for grants end to end. First set of Welcome Vouchers and shared grants to be given by Akash Network, Quickswap and Huobi, Tatum & CertiK. Grants and Welcome Vouchers are a great way to scale projects. #PolygonVillage, built with Copestudio and supported by Questbook is creating an ecosystem where projects can thrive with much-needed support.",
+    "Event_Url": "https://www.dndbeyond.com/characters/classes/bard/celestial",
+    "Meet_Url": "https://meet.dndbeyond.com/2676",
+    "Access": 0,
+    "DAO": "PolygonDAO",
+    "Start": "05/19/2022 @ 0:00am",
+    "Finish": "01//2020 @ 8:00am",
+    "Slots": 0,
+    "Attendants": [
+      {
+        "Name": "Dylan",
+        "Discord": "Dylan#9076"
+      }
+    ],
+    "Cost": 0,
+    "Location": "",
+    "Host_Discord": "Vorcigernix#1185",
+    "Badges": [
+      {
+        "emoji": "",
+        "label": "Governance"
+      },
+      {
+        "emoji": "",
+        "label": "Regular"
+      },
+      {
+        "emoji": "",
+        "label": "Open Call"
+      }
+    ]
   }
 ]
