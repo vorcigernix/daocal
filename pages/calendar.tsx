@@ -1,12 +1,11 @@
 import Events from "../public/events.json";
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { Calendar } from '@mantine/dates';
-import { Group, useMantineTheme, createStyles, Indicator, Badge, Grid } from "@mantine/core";
+import { Group, useMantineTheme, createStyles, Indicator, Badge, Grid, MediaQuery } from "@mantine/core";
 import dayjs from 'dayjs';
 import { Container, RadiusTopRight, Underline } from "tabler-icons-react";
 import { BadgeCard } from "../components/Card/Card";
-import { rootCertificates } from "tls";
-import { isMobile, isBrowser } from "react-device-detect";
+import { isDesktop } from "react-device-detect";
 
 
 const useStyles = createStyles((theme) => ({
@@ -83,61 +82,69 @@ export default function EventCalendar() {
   }
   return (
     <Grid columns={3}>
-      <Grid.Col span={isBrowser ? 2 : 3}>
+      <Grid.Col md={3} lg={2}>
         <Calendar
-        value={value}
-        fullWidth
-        size="xl"
-        allowLevelChange={false}
-        onChange={(e) => CalendarChange(e)}
-        styles={(theme) => ({
-          cell: {
-            border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
-              }`,
-          },
-          day: { borderRadius: 0, height: 100, fontSize: theme.fontSizes.lg },
-          weekday: { fontSize: theme.fontSizes.lg },
-          weekdayCell: {
-            fontSize: theme.fontSizes.xl,
-            backgroundColor:
-              theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
-            border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
-              }`,
-            height: 100,
-          },
-        })}
-        renderDay={(date) => {
-          const day = dayjs(date);
-          var customParseFormat = require('dayjs/plugin/customParseFormat');
-          dayjs.extend(customParseFormat);
-          //console.log((dayjs("05/18/2022 @ 8:00am", "MM/DD/YYYY @ h:mma")));
-          //console.log(day);
-          let todayEvent = Events.find(event => dayjs(day).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
-          if (todayEvent)
-            return <Group className={classes.eventName} direction="column" spacing={0} position="center" my={0} py={0}><u>{day.date().toString()}</u><Badge my={0} py={0} color="blue" variant="filled">{todayEvent.Name}</Badge></Group>
-          else return <div>{day.date().toString()}</div>
-          // return (
-          //   <div>{todayEvent ? day.date().toString() + '■' : day.date().toString()}</div>
-          // );
-        }}
-      // dayStyle={(date) => {
-      //   let todayEvent = Events.find(event => dayjs(date).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"));
-      //   console.log(todayEvent)
-      //   return todayEvent
-      //     ? {
-      //       color: theme.white,
-      //       border: `1px solid ${theme.colors.brand[5]
-      //         }`
-      //     } : {
-      //       color: theme.white,
-      //       border: `0px solid ${theme.colors.brand[0]
-      //         }`
-      //     } /*{ backgroundColor: theme.colors.dark[7], color: theme.white }*/
-      // }
-      // }
-      />
+          value={value}
+          fullWidth
+          size="xl"
+          allowLevelChange={false}
+          onChange={(e) => CalendarChange(e)}
+          styles={(theme) => ({
+            cell: {
+              border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+                }`,
+            },
+            day: { borderRadius: 0, height: 100, fontSize: theme.fontSizes.lg },
+            weekday: { fontSize: theme.fontSizes.lg },
+            weekdayCell: {
+              fontSize: theme.fontSizes.xl,
+              backgroundColor:
+                theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
+              border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+                }`,
+              height: 100,
+            },
+          })}
+          renderDay={(date) => {
+            const day = dayjs(date);
+            var customParseFormat = require('dayjs/plugin/customParseFormat');
+            dayjs.extend(customParseFormat);
+            //console.log((dayjs("05/18/2022 @ 8:00am", "MM/DD/YYYY @ h:mma")));
+            //console.log(day);
+            let todayEvent = Events.find(event => dayjs(day).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
+            if (todayEvent) {
+
+              return <>
+                <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+                  <Group className={classes.eventName} direction="column" spacing={0} position="center"><u>{day.date().toString()}</u><Badge color="blue" variant="filled">{todayEvent.Name}</Badge></Group></MediaQuery>
+                <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+                  <Indicator color='blue'><u>{day.date().toString()}</u></Indicator></MediaQuery></>
+            }
+            else {
+              return <div>{day.date().toString()}</div>
+            }
+            // return (
+            //   <div>{todayEvent ? day.date().toString() + '■' : day.date().toString()}</div>
+            // );
+          }}
+        // dayStyle={(date) => {
+        //   let todayEvent = Events.find(event => dayjs(date).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"));
+        //   console.log(todayEvent)
+        //   return todayEvent
+        //     ? {
+        //       color: theme.white,
+        //       border: `1px solid ${theme.colors.brand[5]
+        //         }`
+        //     } : {
+        //       color: theme.white,
+        //       border: `0px solid ${theme.colors.brand[0]
+        //         }`
+        //     } /*{ backgroundColor: theme.colors.dark[7], color: theme.white }*/
+        // }
+        // }
+        />
       </Grid.Col>
-      <Grid.Col span={isBrowser ? 1 : 3}>
+      <Grid.Col md={3} lg={1}>
         {eventDetail}
       </Grid.Col>
     </Grid>

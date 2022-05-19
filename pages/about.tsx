@@ -41,12 +41,6 @@ export default function About() {
       primaryColor: 'brand',
     }}>
       <HeroBullets></HeroBullets>
-      <Title align="center" className={classes.title}>
-        Frequently Asked Questions
-      </Title>
-      <FaqSimple title="How do i reset my password" text="ujfgvukasgvklauiusadgfiausgiusadvuiasgbviusdgb"></FaqSimple>
-      <FaqSimple title="a" text="sgsdgdsgsdyeyjtjgjfjshdhd"></FaqSimple>
-      
     </MantineProvider>
   }
   const useStyles = createStyles((theme) => ({
@@ -84,6 +78,7 @@ export default function About() {
       lineHeight: 1.2,
       fontWeight: 900,
       marginBottom: theme.spacing.xl * 1.5,
+      paddingTop: theme.spacing.sm,
   
       [theme.fn.smallerThan('xs')]: {
         fontSize: 28,
@@ -164,6 +159,11 @@ export default function About() {
                   Source code
                 </Button>
               </Group>
+              <Title align="left" className={classes.title}>
+                Frequently Asked Questions
+              </Title>
+              <FaqSimple title="How do i reset my password" text="ujfgvukasgvklauiusadgfiausgiusadvuiasgbviusdgb"></FaqSimple>
+              <FaqSimple title="a" text="sgsdgdsgsdyeyjtjgjfjshdhd"></FaqSimple>
             </div>
             <Image src={image.src} className={classes.image} />
           </div>
