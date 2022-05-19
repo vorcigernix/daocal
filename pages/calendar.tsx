@@ -1,11 +1,11 @@
 import Events from "../public/events.json";
-import { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect, Fragment } from 'react';
 import { Calendar } from '@mantine/dates';
-import { Group, useMantineTheme, createStyles, Indicator, Badge, Grid, MediaQuery } from "@mantine/core";
+import { Group, useMantineTheme, createStyles, Indicator, Badge, Grid, MediaQuery, Text, Stack } from "@mantine/core";
 import dayjs from 'dayjs';
 import { Container, RadiusTopRight, Underline } from "tabler-icons-react";
 import { BadgeCard } from "../components/Card/Card";
-import { isDesktop } from "react-device-detect";
+import defaultEvent from '../public/defaultEvent.json';
 
 
 const useStyles = createStyles((theme) => ({
@@ -51,33 +51,40 @@ const useStyles = createStyles((theme) => ({
     },
      */
   eventCell: {
-
-    border: `1px solid ${theme.colors.brand[4]
-      }`,
-    borderRadius: 0,
-
-
+    height: 100,
   },
   eventName: {
-    maxHeight: 100,
-  }
+    maxHeight: 40}
 }));
 
 export default function EventCalendar() {
   const [value, setValue] = useState<Date>(new Date());
   const [eventDetail, setEventDetail] = useState<ReactNode>()
   const { classes } = useStyles();
-  let card;
+  let defaultCard = <BadgeCard title={defaultEvent[0].Name} image={defaultEvent[0].Image} dao={defaultEvent[0].DAO} eventtime={defaultEvent[0].Start} badges={defaultEvent[0].Badges} description={defaultEvent[0].Description}></BadgeCard>
+  let cards = [defaultCard];
 
   function CalendarChange(e: string | number | Date | null) {
     e && setValue(new Date(e))
 
     var customParseFormat = require('dayjs/plugin/customParseFormat');
     dayjs.extend(customParseFormat);
-    let selectEvent = Events.find(event => dayjs(e).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
-    if (selectEvent) {
-      card = <BadgeCard badges={selectEvent.Badges} title={selectEvent.Name} image={selectEvent.Image} dao={selectEvent.DAO} eventtime={selectEvent.Start} description={selectEvent.Description}></BadgeCard>
-      setEventDetail(card)
+    let selectEvents = Events.filter(event => dayjs(e).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
+    if (selectEvents) {
+      cards.pop();
+      {selectEvents.map((item, i) => (
+          cards.push(<BadgeCard
+          key={item.Name + i}
+          image={item.Image}
+          title={item.Name}
+          dao={item.DAO}
+          eventtime={item.Start}
+          description={item.Description}
+          badges={item.Badges}
+        />)
+      ))}
+      console.log(cards);
+      setEventDetail(cards)
     }
   }
   return (
@@ -93,8 +100,10 @@ export default function EventCalendar() {
             cell: {
               border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
                 }`,
+                margin: 0,
+                padding: 0
             },
-            day: { borderRadius: 0, height: 100, fontSize: theme.fontSizes.lg },
+            day: { borderRadius: 0, height: 100, fontSize: theme.fontSizes.lg, overflow: "hidden"},
             weekday: { fontSize: theme.fontSizes.lg },
             weekdayCell: {
               fontSize: theme.fontSizes.xl,
@@ -103,6 +112,7 @@ export default function EventCalendar() {
               border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
                 }`,
               height: 100,
+              overflow: "hidden",
             },
           })}
           renderDay={(date) => {
@@ -111,17 +121,41 @@ export default function EventCalendar() {
             dayjs.extend(customParseFormat);
             //console.log((dayjs("05/18/2022 @ 8:00am", "MM/DD/YYYY @ h:mma")));
             //console.log(day);
-            let todayEvent = Events.find(event => dayjs(day).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
-            if (todayEvent) {
+            let todayEvents = Events.filter(event => dayjs(day).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
+            if (todayEvents.length == 1) {
 
               return <>
                 <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-                  <Group className={classes.eventName} direction="column" spacing={0} position="center"><u>{day.date().toString()}</u><Badge color="blue" variant="filled">{todayEvent.Name}</Badge></Group></MediaQuery>
+                <Stack className={classes.eventCell} align="flex-start" justify="flex-start" spacing={0}>
+                <div className={classes.eventName}>{day.date().toString()}</div>
+                  <Text color="blue" mt={0} className={classes.eventName}>{todayEvents[0].Name}</Text>
+                </Stack>
+                </MediaQuery>
                 <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-                  <Indicator color='blue'><u>{day.date().toString()}</u></Indicator></MediaQuery></>
+                  <Indicator color='blue'>{day.date().toString()}</Indicator>
+                </MediaQuery></>
+            }
+            else if(todayEvents.length > 1 && todayEvents.length <= 3){
+              return <>
+                <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+                <Stack className={classes.eventCell} align="flex-start" justify="flex-start" spacing={0}>
+                  <div className={classes.eventName}>{day.date().toString()}</div>
+                  {todayEvents.map((todayEvent, i) => (
+                    <Text key={i} align='left' color="blue" px={0} mx={0}>{todayEvent.Name}</Text>
+                   ))}
+                </Stack>
+                </MediaQuery>
+                <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+                  <Indicator color='blue'>{day.date().toString()}</Indicator>
+                </MediaQuery></>
+            }
+            else if(todayEvents.length > 3){
+              return <>
+                <Indicator color='blue'>{day.date().toString()}</Indicator>
+              </>
             }
             else {
-              return <div>{day.date().toString()}</div>
+              return <Stack className={classes.eventCell} align="flex-start" justify="flex-start" spacing={0}><div className={classes.eventName}>{day.date().toString()}</div></Stack>
             }
             // return (
             //   <div>{todayEvent ? day.date().toString() + '■' : day.date().toString()}</div>
