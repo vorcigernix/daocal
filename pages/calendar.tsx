@@ -132,7 +132,7 @@ export default function EventCalendar() {
                 </Stack>
                 </MediaQuery>
                 <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-                  <Indicator color='blue'>{day.date().toString()}</Indicator>
+                  <Indicator color='blue'><div className={classes.eventName}>{day.date().toString()}</div></Indicator>
                 </MediaQuery></>
             }
             else if(todayEvents.length > 1 && todayEvents.length <= 3){
@@ -146,12 +146,12 @@ export default function EventCalendar() {
                 </Stack>
                 </MediaQuery>
                 <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-                  <Indicator color='blue'>{day.date().toString()}</Indicator>
+                <Indicator color='blue'><div className={classes.eventName}>{day.date().toString()}</div></Indicator>
                 </MediaQuery></>
             }
             else if(todayEvents.length > 3){
               return <>
-                <Indicator color='blue'>{day.date().toString()}</Indicator>
+                <Indicator color='blue'><div className={classes.eventName}>{day.date().toString()}</div></Indicator>
               </>
             }
             else {

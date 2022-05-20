@@ -1,9 +1,12 @@
 import React, { useState, ReactNode } from 'react';
 import { AppShell, MediaQuery, Burger, useMantineTheme, createStyles, Header } from '@mantine/core';
+import dynamic from 'next/dynamic'
 
 import { Branding } from './_branding';
-import { MainLinks } from './_mainLinks';
-
+const MainLinks = dynamic(
+  () => import('./_mainLinks'),
+  { ssr: false }
+)
 type Props = {
   children?: ReactNode;
   title?: string;
