@@ -3,7 +3,6 @@ import { AppShell, MediaQuery, Burger, useMantineTheme, createStyles, Header } f
 
 import { Branding } from './_branding';
 import { MainLinks } from './_mainLinks';
-
 type Props = {
   children?: ReactNode;
   title?: string;

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import addresses from '../../public/addresses.json';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useEnsName, useEnsAddress } from 'wagmi'
 import {
   createStyles,
   Navbar,
@@ -18,8 +21,8 @@ import {
   InfoCircle,
   CirclePlus,
   Bookmarks,
-} from 'tabler-icons-react';
-
+}
+  from 'tabler-icons-react';
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
   return {
@@ -81,10 +84,15 @@ const useStyles = createStyles((theme, _params, getRef) => {
         },
       },
     },
+    ethButton: {
+      paddingTop: theme.spacing.sm,
+      display: 'flex'
+    }
   };
 });
 
-const data = [
+
+const dataLinks = [
   { link: '/', label: 'Highlights', icon: BellRinging },
   { link: '/myevents', label: 'Attending', icon: Bookmarks },
   { link: '/calendar', label: 'Calendar', icon: Calendar },
@@ -99,8 +107,16 @@ type Props = {
 export function MainLinks({ opened = false }: Props) {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Higlights');
+  const [isVisible, setIsVisible] = useState(false)
+  const { data: accountData } = useAccount()
+  const { data: ensNameData } = useEnsName({ address: accountData?.address })
 
-  const links = data.map((item) => (
+  function checkRights(): boolean | undefined {
+    if (addresses.filter(address => address.Address === accountData?.address).length > 0) return true
+    //return false
+  }
+
+  const links = dataLinks.map((item) => (
     <Link href={item.link} key={item.link} passHref>
       <a
         className={cx(classes.link, { [classes.linkActive]: item.label === active })}
@@ -113,7 +129,6 @@ export function MainLinks({ opened = false }: Props) {
       </a>
     </Link>
   ));
-
   return (
     <Navbar
       p="lg"
@@ -127,18 +142,23 @@ export function MainLinks({ opened = false }: Props) {
           {links}
         </Navbar.Section>
 
-        <Navbar.Section className={classes.footer}>
-          <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-            <CirclePlus className={classes.linkIcon} />
-            <span>Add Event</span>
-          </a>
+        <Navbar.Section className={classes.footer} >
 
-          <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-            <Logout className={classes.linkIcon} />
-            <span>0x5bbiushd98679ccc</span>
-          </a>
+          <div hidden={!checkRights()}>
+            <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+              <CirclePlus className={classes.linkIcon} />
+              <span>Add Event</span>
+            </a>
+          </div>
+
+
         </Navbar.Section>
       </Box>
+      <div className={classes.ethButton}>
+        <ConnectButton chainStatus='icon' accountStatus='full' showBalance={false} />
+      </div>
     </Navbar>
   );
 }
+
+
