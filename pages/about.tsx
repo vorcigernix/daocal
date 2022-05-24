@@ -1,7 +1,7 @@
 import { MantineProvider } from "@mantine/core";
 import React from 'react';
 import Link from 'next/link';
-import { FaqSimple } from "../components/Card/question";
+import { FaqSimple } from "../components/Card/Question";
 import {
   createStyles,
   Image,
