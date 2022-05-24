@@ -145,10 +145,12 @@ export function MainLinks({ opened = false }: Props) {
         <Navbar.Section className={classes.footer} >
 
           <div hidden={!checkRights()} style={checkRights() ?{ display: 'none' } : { display: 'block' }}>
-            <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-              <CirclePlus className={classes.linkIcon} />
-              <span>Add Event</span>
-            </a>
+            <Link href='../../addevent' >
+              <a className={classes.link} onClick={(event) => event.preventDefault()}>
+                <CirclePlus className={classes.linkIcon} />
+                <span>Add Event</span>
+              </a>
+            </Link>
           </div>
 
 

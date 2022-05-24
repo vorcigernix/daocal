@@ -1,11 +1,11 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, Suspense, lazy } from 'react';
 import { AppShell, MediaQuery, Burger, useMantineTheme, createStyles, Header } from '@mantine/core';
 import dynamic from 'next/dynamic'
 
 import { Branding } from './_branding';
 const MainLinks = dynamic(
   () => import('./_mainLinks'),
-  { ssr: false }
+  { ssr: false,},
 )
 type Props = {
   children?: ReactNode;
@@ -29,7 +29,9 @@ export const Layout = ({ children, title = 'DAO Events: Zitrone' }: Props) => {
     <AppShell
       navbarOffsetBreakpoint="sm"
       fixed
-      navbar={<MainLinks opened={opened} />}
+      navbar={
+          <MainLinks opened={opened} />
+      }
       header={
         <Header height={85} p="lg" className={classes.header}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
