@@ -14,6 +14,7 @@ export default function userHandler(req, res) {
       // Get data from your database
       //console.log(daos);
         let matchNames = Object.values(daos).filter((dao) => dao.name.includes(id))
+        console.log(matchNames)
       /* for (const dao of Object.values(daos)) {
 
         if (dao.name.includes(id)) {

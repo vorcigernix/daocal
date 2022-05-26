@@ -1,5 +1,6 @@
 import React from 'react';
-import { Heart } from 'tabler-icons-react';
+import { Heart, X } from 'tabler-icons-react';
+import { useLocalStorage } from '@mantine/hooks';
 import {
   Card,
   Text,
@@ -17,19 +18,19 @@ const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor: theme.colors.dark[6],
     color: "white",
-    minWidth: 200,
+    /* minWidth: 200,
     maxWidth: 200,
     [`@media (max-width: ${theme.breakpoints.xl}px)`]: {
       minWidth: 325,
       maxWidth: 325,
-    },
+    }, */
   },
 
   section: {
     borderBottom: `1px solid ${theme.colors.dark[4]}`,
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
-    paddingBottom: theme.spacing.md,
+    /*paddingBottom: theme.spacing.md, */
   },
 
   description: { height: 200 },
@@ -54,22 +55,32 @@ interface DaoCardProps {
 export function DaoCard({name, network, followers}: DaoCardProps) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
-
+  const [myDAOs, setMyDAOs] = useLocalStorage({
+    key: 'savedDAOS'
+  });
+  let _myDaos = Object.values(JSON.parse(myDAOs));
   return (
-    <Card radius="lg" p="md" className={classes.card}>
-      <Card.Section className={classes.section} mt="md">
-        <div className={classes.description}>
-          <Group position="apart">
-            <Text size="lg" weight={500}>
+    <Card radius="md" p="md" className={classes.card}>
+      <Card.Section className={classes.section}>
+          <Group position="apart" direction='row'>
+            <Text size="sm" weight={500}>
               {name}
             </Text>
-            <Badge size="sm">{'Followers: ' + followers}</Badge>
+            <Badge size="xs">{'Followers: ' + followers}</Badge>
+            <Button variant='subtle' onClick={() => handleRemoveDao()}>
+              <X/>
+            </Button>
           </Group>
-            <Text size="sm" mt="xs" lineClamp={8}>
-              {'Network: ' + network}
-            </Text>
-        </div>
       </Card.Section>
     </Card>
   );
+  function handleRemoveDao(){
+    for (let index = 0; index < _myDaos.length; index++) {
+      const element:any = _myDaos[index];
+      if(element.name === name){
+        _myDaos.splice(index, 1);
+      }
+    }
+    setMyDAOs(JSON.stringify(_myDaos))
+  }
 }

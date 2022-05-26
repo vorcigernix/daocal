@@ -19,6 +19,7 @@ const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor: theme.colors.dark[6],
     color: "white",
+    paddingTop: theme.spacing.md,
   },
 
   section: {
@@ -107,7 +108,7 @@ export function BadgeCard({ image, title, description, dao, eventtime, badges }:
       </Card.Section>
       <Card.Section>
           <Text m="md" className={classes.label}>
-          {dayjs(eventtime).format('MMMM Dd YYYY, h:mm:ss a')}
+          {/* dayjs(eventtime, "MM/DD/YYYY @ h:mma").format('MMMM Dd YYYY, h:mm:ss a') */eventtime}
           </Text>
       </Card.Section>
 

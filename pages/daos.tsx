@@ -3,11 +3,14 @@ import React, { useState, ReactNode, lazy } from 'react';
 import { useLocalStorage } from '@mantine/hooks';
 import DaosJson from '../public/daos.json';
 import dynamic from 'next/dynamic';
-import fetch from '../libs/fetcher'
-import useSWR from 'swr'
+import fetcher from '../libs/fetcher';
+const MyDaoEvents = dynamic(() => import('../components/MyDaoEvents'),
+  { ssr: false }
+)
 const MyDaosComponent = dynamic(() => import('../components/MyDaos'),
   { ssr: false }
 )
+
 import {
   Button,
   createStyles,
@@ -25,11 +28,15 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function Daos() {
-
   const [myDAOs, setMyDAOs] = useLocalStorage({
     key: 'savedDAOS'
   });
 
+  async function useDaoName(id: string) {
+    const result = fetcher(`./api/data/${id}`)
+    return (await result)
+
+  }
   //console.log(Object.values(savedDAOS))
 
 
@@ -40,21 +47,15 @@ export default function Daos() {
     daoNames.push(name)
     //console.log(name);
   } */
-  const [daoNames, setDaoNames] = useState([])
+
   const [selectedDao, setSelectedDao] = useState('');
+  const [filteredDaos, setFilteredDaos] = useState([])
+  //console.log(useDaoName(selectedDao))
   // const userDaos : any[] = []
   // for(let i = 0; i < myDAOs.length; i++){
   //   userDaos.push(JSON.parse(myDAOs[i]));
   // }
-  function useDaoName(id: string) {
-    const { data, error } = useSWR(`./api/data/${id}`, fetch)
-    console.log(data, error)
-    return {
-      daoobject: data,
-      isLoading: !error && !data,
-      isError: error
-    }
-  }
+
   function handleAddDao() {
     for (const dao of Object.values(DaosJson)) {
 
@@ -70,31 +71,63 @@ export default function Daos() {
       }
     }
   }
-
-  function handleACChange(val: string) {
-    setSelectedDao(val)
-    let names: string[] = [];
-    if (selectedDao.length >= 3) {
-      let daos = useDaoName(selectedDao);
-      Object.values(daos).forEach(element => {
-        names.push(element.name);
-      });
+  async function filterDAOs(e: string) {
+    setSelectedDao(e)
+    //console.log(e, e.length)
+    if (e.length > 1) {
+      const daolist = await useDaoName(e)
+      setFilteredDaos(daolist.map((v: { name: string; }) => v.name))
     }
-    return names;
+    else {
+      setFilteredDaos([]);
+    }
+    //setFilteredDaos(daolist.daoobject as [])
+
   }
+
+  /*   function handleACChange(val: string) {
+      setSelectedDao(val)
+      let names: string[] = [];
+      if (selectedDao.length >= 3) {
+        let daos = useDaoName(selectedDao);
+        Object.values(daos).forEach(element => {
+          names.push(element.name);
+        });
+      }
+      return names;
+    } */
+
+
+
   return (
     <>
-      <MyDaosComponent></MyDaosComponent>
+      <MyDaosComponent />
       <Autocomplete
         value={selectedDao}
-        onChange={(event) => { setDaoNames( handleACChange(event)) }}
+        onChange={(e) => filterDAOs(e)}
         label="Add a new DAO to your DAOs"
         placeholder="Pick one"
-        data={daoNames ? daoNames : ['type more to see suggestions']}
+        data={filteredDaos.length > 0 ? filteredDaos : ['type more to see suggestions']}
       />
       <Group align="flex-end" className={classes.okButton}>
         <Button onClick={() => handleAddDao()}>OK</Button>
       </Group>
+      <SimpleGrid
+      cols={4}
+      spacing="lg"
+      py='md'
+      breakpoints={[
+        { maxWidth: 980, cols: 3, spacing: 'md' },
+        { maxWidth: 755, cols: 2, spacing: 'sm' },
+        { maxWidth: 600, cols: 1, spacing: 'sm' },
+      ]}
+      >
+        <MyDaoEvents mydaos={myDAOs} />
+      </SimpleGrid>
     </>
   );
 }
+
+
+
+
