@@ -1,8 +1,9 @@
-import daos from '../../../public/daos.json'
+import daosJSON from "../../../public/DeepDAOapi.json"
 /* import dynamic from 'next/dynamic'
 const daos = dynamic(
   () => import('../../../public/daos.json'),
 ) */
+const {data: {resources: daos}} = daosJSON;
 export default function userHandler(req, res) {
   const {
     query: { id },
@@ -13,8 +14,8 @@ export default function userHandler(req, res) {
     case 'GET':
       // Get data from your database
       //console.log(daos);
-        let matchNames = Object.values(daos).filter((dao) => dao.name.includes(id))
-        console.log(matchNames)
+        let matchNames = daos.filter((dao) => dao.name.toLowerCase().includes(id.toLowerCase()))
+        //console.log(matchNames)
       /* for (const dao of Object.values(daos)) {
 
         if (dao.name.includes(id)) {
