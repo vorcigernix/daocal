@@ -1,45 +1,30 @@
-
-import React, { useState, ReactNode, lazy } from 'react';
-import { useLocalStorage } from '@mantine/hooks';
-import DaosJson from '../public/DeepDAOapi.json';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useLocalStorage } from '@mantine/hooks';
+import { Button, createStyles, Text, Group, Autocomplete, SimpleGrid, Image } from '@mantine/core';
+import DaosJson from '../public/DeepDAOapi.json';
 import fetcher from '../libs/fetcher';
-const MyDaoEvents = dynamic(() => import('../components/MyDaoEvents'),
-  { ssr: false }
-)
-const MyDaosComponent = dynamic(() => import('../components/MyDaos'),
-  { ssr: false }
-)
 import compareTokens from '../libs/compareTokens';
-import {
-  Button,
-  createStyles,
-  Text,
-  Group,
-  Autocomplete,
-  SimpleGrid,
-  Image,
-} from '@mantine/core';
+
+const MyDaoEvents = dynamic(() => import('../components/MyDaoEvents'), { ssr: false });
+const MyDaosComponent = dynamic(() => import('../components/MyDaos') as any, { ssr: false });
 
 const useStyles = createStyles((theme) => ({
   okButton: {
     paddingTop: theme.spacing.md,
-
-  }
+  },
 }));
 
 export default function Daos() {
   const [myDAOs, setMyDAOs] = useLocalStorage({
-    key: 'savedDAOS'
+    key: 'savedDAOS',
   });
 
   async function useDaoName(id: string) {
-    const result = fetcher(`./api/data/${id}`)
-    return (await result)
-
+    const result = fetcher(`./api/data/${id}`);
+    return result;
   }
   //console.log(Object.values(savedDAOS))
-
 
   const { classes } = useStyles();
   /* for (const { name } of Object.values(DaosJson)) {
@@ -50,46 +35,43 @@ export default function Daos() {
   } */
 
   const [selectedDao, setSelectedDao] = useState('');
-  const [filteredDaos, setFilteredDaos] = useState([])
+  const [filteredDaos, setFilteredDaos] = useState([]);
   //console.log(useDaoName(selectedDao))
   // const userDaos : any[] = []
   // for(let i = 0; i < myDAOs.length; i++){
   //   userDaos.push(JSON.parse(myDAOs[i]));
   // }
-  const { data: { resources: daos } } = DaosJson;
+  const {
+    data: { resources: daos },
+  } = DaosJson;
   const [msgVisible, setMsgVisible] = useState(false);
   function handleAddDao() {
     for (const dao of daos) {
-
       if (dao.name === selectedDao) {
         if (compareTokens(dao)) {
           setMsgVisible(false);
           //console.log(myDAOs + JSON.stringify([dao]))
           if (myDAOs === undefined || myDAOs === null) {
-            setMyDAOs(JSON.stringify([dao]))
+            setMyDAOs(JSON.stringify([dao]));
+          } else if (!myDAOs.includes(dao.name)) {
+            setMyDAOs(JSON.stringify(JSON.parse(myDAOs).concat([dao])));
           }
-          else if (!myDAOs.includes(dao.name)) {
-            setMyDAOs(JSON.stringify(JSON.parse(myDAOs).concat([dao])))
-          }
-        }
-        else {
+        } else {
           setMsgVisible(true);
         }
       }
     }
   }
   async function filterDAOs(e: string) {
-    setSelectedDao(e)
+    setSelectedDao(e);
     //console.log(e, e.length)
     if (e.length > 2) {
-      const daolist = await useDaoName(e)
-      setFilteredDaos(daolist.map((v: { name: string; }) => v.name))
-    }
-    else {
+      const daolist = await useDaoName(e);
+      setFilteredDaos(daolist.map((v: { name: string }) => v.name));
+    } else {
       setFilteredDaos([]);
     }
     //setFilteredDaos(daolist.daoobject as [])
-
   }
 
   /*   function handleACChange(val: string) {
@@ -104,8 +86,6 @@ export default function Daos() {
       return names;
     } */
 
-
-
   return (
     <>
       <MyDaosComponent />
@@ -118,12 +98,14 @@ export default function Daos() {
       />
       <Group align="flex-end" className={classes.okButton}>
         <Button onClick={() => handleAddDao()}>OK</Button>
-        <Text style={msgVisible? { display: 'block' } : { display: 'none' }}>You do not have access to this DAO</Text>
+        <Text style={msgVisible ? { display: 'block' } : { display: 'none' }}>
+          You do not have access to this DAO
+        </Text>
       </Group>
       <SimpleGrid
         cols={4}
         spacing="lg"
-        py='md'
+        py="md"
         breakpoints={[
           { maxWidth: 980, cols: 3, spacing: 'md' },
           { maxWidth: 755, cols: 2, spacing: 'sm' },
@@ -132,11 +114,7 @@ export default function Daos() {
       >
         <MyDaoEvents mydaos={myDAOs} />
       </SimpleGrid>
-        <Image width={200} src='./deepdao.png'/>
+      <Image width={200} src="./deepdao.png" />
     </>
   );
 }
-
-
-
-
