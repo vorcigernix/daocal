@@ -45,20 +45,14 @@ const useStyles = createStyles((theme) => ({
 interface BadgeCardProps {
   image: string;
   title: string;
-  dao: string;
-  eventtime: string;
   description: string;
-  badges: {
-    emoji: string;
-    label: string;
-  }[];
 }
 
-export function BadgeCard({ image, title, description, dao, eventtime, badges }: BadgeCardProps) {
+export default function BadgeCard({ image, title, description}: BadgeCardProps) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
 
-  const features = badges.map((badge) => (
+  /* const features = badges.map((badge) => (
     <Badge
       color={theme.colorScheme === 'dark' ? 'dark' : 'gray'}
       key={badge.label}
@@ -66,7 +60,7 @@ export function BadgeCard({ image, title, description, dao, eventtime, badges }:
     >
       {badge.label}
     </Badge>
-  ));
+  )); */
 
   return (
     <Card radius="lg" p="md" className={classes.card}>
@@ -79,7 +73,6 @@ export function BadgeCard({ image, title, description, dao, eventtime, badges }:
             <Text size="lg" weight={500}>
               {title}
             </Text>
-            <Badge size="sm">{dao}</Badge>
           </Group>
           <Tooltip
             wrapLines
@@ -97,29 +90,6 @@ export function BadgeCard({ image, title, description, dao, eventtime, badges }:
           </Tooltip>
         </div>
       </Card.Section>
-
-      <Card.Section className={classes.section}>
-        <Text mt="md" className={classes.label} color="dimmed">
-          Perfect for you, if you look for
-        </Text>
-        <Group spacing={7} mt={5}>
-          {features}
-        </Group>
-      </Card.Section>
-      <Card.Section>
-          <Text m="md" className={classes.label}>
-          {/* dayjs(eventtime, "MM/DD/YYYY @ h:mma").format('MMMM Dd YYYY, h:mm:ss a') */eventtime}
-          </Text>
-      </Card.Section>
-
-      <Group mt="xs">
-        <Button radius="md" style={{ flex: 1 }}>
-          Attend
-        </Button>
-        <ActionIcon variant="default" radius="md" size={36}>
-          <Heart size={18} className={classes.like} />
-        </ActionIcon>
-      </Group>
     </Card>
   );
 }

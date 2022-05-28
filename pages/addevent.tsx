@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
+import Events from '../public/events.json'
 import {
     createStyles,
     Group,
@@ -13,10 +14,11 @@ import {
     NativeSelect,
     Checkbox,
     NumberInput,
+    Button,
 } from '@mantine/core';
 import { Upload, Photo, X, Icon as TablerIcon } from 'tabler-icons-react';
 import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { DatePicker } from '@mantine/dates';
+import { DatePicker, TimeInput } from '@mantine/dates';
 const useStyles = createStyles((theme) => ({
     root: {
       position: 'relative',
@@ -94,6 +96,9 @@ export default function AddEvent() {
     const[end, setEnd] = useState(new Date());
     const[location, setLocation] = useState('');
     const[discord, setDiscord] = useState('');
+    const[cost, setCost] = useState('');
+    const[startHour, setStartHour] = useState(new Date())
+    const[endHour, setEndHour] = useState(new Date())
 
     const select = (
         <NativeSelect
@@ -139,6 +144,14 @@ export default function AddEvent() {
                 clearable={false}
                 value={start} onChange={(val:Date) => setStart(val)}
             />
+            <TimeInput
+              defaultValue={new Date()}
+              label="Start time"
+              required
+              clearable
+              value={startHour}
+              onChange={setStartHour}
+            />
             <DatePicker
                 style={{ marginTop: 20 }}
                 label="Event end"
@@ -147,16 +160,31 @@ export default function AddEvent() {
                 clearable={false}
                 value={end} onChange={(val:Date) => setEnd(val)}
             />
+            <TimeInput
+              defaultValue={new Date()}
+              label="End time"
+              required
+              clearable
+              value={endHour}
+              onChange={setEndHour}
+            />
             <TextInput
                 type="number"
                 placeholder="10"
                 label="entry cost"
                 rightSection={select}
-                rightSectionWidth={92}
+                rightSectionWidth={100}
+                value={cost} onChange={(event) => setCost(event.currentTarget.value)}
             />
             <TextInput label="Event Location" placeholder="discord server link or real life address" classNames={classes} value={location} onChange={(event) => setLocation(event.currentTarget.value)}/>
             <TextInput label="Host discord" placeholder="Name#0123" classNames={classes} value={discord} onChange={(event) => setDiscord(event.currentTarget.value)}/>
+            <Button onClick={() => handleAddEvent()}>
+              Add to my events
+            </Button>
         </Group>
         </>
     );
+    function handleAddEvent(){
+      
+    }
 }
