@@ -16,12 +16,16 @@ import { BadgeCard } from '../components/Card/Card';
 import defaultEvent from '../public/defaultEvent.json';
 import DefaultCard from '../components/Card/DefaultCard';
 import Events from '../public/events.json';
-import { start } from 'repl';
 
 const useStyles = createStyles(() => ({
   eventName: {
-    maxHeight: 50,
-    overflow: 'hidden',
+    fontSize: '0.7rem',
+  },
+  daystyle: {
+    lineHeight: 1,
+  },
+  cellstyle: {
+    height: '100%',
   },
 }));
 
@@ -95,14 +99,12 @@ export default function EventCalendar() {
               backgroundColor: theme.colors.dark[6],
               borderRadius: theme.radius.lg,
             },
-            cell: {},
             day: {
               height: 100,
               fontSize: theme.fontSizes.sm,
               overflow: 'hidden',
-              textOverflow: 'ellipsis',
+              padding: theme.spacing.sm,
             },
-            selected: { backgroundColor: 'red' },
           })}
           renderDay={(date) => {
             const day = dayjs(date);
@@ -126,14 +128,19 @@ export default function EventCalendar() {
               return (
                 <>
                   <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-                    <Stack>
-                      <div>{day.date().toString()}</div>
+                    <Group
+                      direction="column"
+                      position="left"
+                      spacing="xs"
+                      className={classes.cellstyle}
+                    >
+                      <div className={classes.daystyle}>{day.date().toString()}</div>
                       {todayEvents.map((todayEvent, i) => (
-                        <Text className={classes.eventName} key={i}>
+                        <Text className={classes.eventName} key={i} align="left" lineClamp={1}>
                           {todayEvent.Name}
                         </Text>
                       ))}
-                    </Stack>
+                    </Group>
                   </MediaQuery>
                   <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
                     <Indicator>
@@ -142,7 +149,8 @@ export default function EventCalendar() {
                   </MediaQuery>
                 </>
               );
-            } else if (todayEvents.length > 3) {
+            }
+            if (todayEvents.length > 3) {
               return (
                 <>
                   <Indicator>
@@ -150,13 +158,12 @@ export default function EventCalendar() {
                   </Indicator>
                 </>
               );
-            } else {
-              return (
-                <Stack>
-                  <div>{day.date().toString()}</div>
-                </Stack>
-              );
             }
+            return (
+              <Group direction="column" position="left" spacing="xs" className={classes.cellstyle}>
+                <div>{day.date().toString()}</div>
+              </Group>
+            );
           }}
         />
       </Grid.Col>
