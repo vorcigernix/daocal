@@ -6,18 +6,17 @@ import '@rainbow-me/rainbowkit/styles.css';
 import {
   darkTheme,
   Theme,
-  apiProvider,
-  configureChains,
   getDefaultWallets,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import merge from 'lodash.merge';
-import { chain, createClient, WagmiProvider } from 'wagmi';
+import { chain, createClient, configureChains, WagmiConfig } from 'wagmi';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { Layout } from '../components/Layout/Layout';
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
-  [apiProvider.alchemy(process.env.ALCHEMY_ID), apiProvider.fallback()]
+  [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID })]
 );
 
 const { connectors } = getDefaultWallets({
@@ -74,7 +73,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
           withGlobalStyles
           withNormalizeCSS
         >
-          <WagmiProvider client={wagmiClient}>
+          <WagmiConfig client={wagmiClient}>
             <RainbowKitProvider chains={chains} theme={myTheme}>
               <Layout>
                 <NotificationsProvider>
@@ -82,7 +81,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
                 </NotificationsProvider>
               </Layout>
             </RainbowKitProvider>
-          </WagmiProvider>
+          </WagmiConfig>
         </MantineProvider>
     </>
   );

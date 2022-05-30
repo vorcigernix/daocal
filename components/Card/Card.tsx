@@ -10,15 +10,13 @@ import {
   ActionIcon,
   createStyles,
   useMantineTheme,
-  Stack,
   Tooltip,
 } from '@mantine/core';
-import { default as dayjs } from 'dayjs';
 
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor: theme.colors.dark[6],
-    color: "white",
+    color: 'white',
     paddingTop: theme.spacing.md,
   },
 
@@ -99,17 +97,14 @@ export function BadgeCard({ image, title, description, dao, eventtime, badges }:
       </Card.Section>
 
       <Card.Section className={classes.section}>
-        <Text mt="md" className={classes.label} color="dimmed">
-          Perfect for you, if you look for
-        </Text>
-        <Group spacing={7} mt={5}>
+        <Group spacing="sm" my="sm" noWrap>
           {features}
         </Group>
       </Card.Section>
       <Card.Section>
-          <Text m="md" className={classes.label}>
-          {/* dayjs(eventtime, "MM/DD/YYYY @ h:mma").format('MMMM Dd YYYY, h:mm:ss a') */eventtime}
-          </Text>
+        <Text m="md" className={classes.label}>
+          {/* dayjs(eventtime, "MM/DD/YYYY @ h:mma").format('MMMM Dd YYYY, h:mm:ss a') */ eventtime}
+        </Text>
       </Card.Section>
 
       <Group mt="xs">

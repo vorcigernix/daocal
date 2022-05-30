@@ -1,28 +1,20 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import Link from 'next/link';
-import addresses from '../../public/addresses.json';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useEnsName, useEnsAddress } from 'wagmi'
-import {
-  createStyles,
-  Navbar,
-  Group,
-  Code,
-  ScrollArea,
-  Box,
-  Paper,
-  Container,
-} from '@mantine/core';
+import { useAccount } from 'wagmi';
+import { createStyles, Navbar, ScrollArea, Box } from '@mantine/core';
 import {
   BellRinging,
-  Logout,
   Calendar,
   ChartBubble,
   InfoCircle,
   CirclePlus,
   Bookmarks,
-}
-  from 'tabler-icons-react';
+} from 'tabler-icons-react';
+import addresses from '../../public/addresses.json';
+
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon');
   return {
@@ -86,11 +78,10 @@ const useStyles = createStyles((theme, _params, getRef) => {
     },
     ethButton: {
       paddingTop: theme.spacing.sm,
-      display: 'flex'
-    }
+      display: 'flex',
+    },
   };
 });
-
 
 const dataLinks = [
   { link: '/', label: 'Highlights', icon: BellRinging },
@@ -107,20 +98,20 @@ type Props = {
 export function MainLinks({ opened = false }: Props) {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Higlights');
-  const [isVisible, setIsVisible] = useState(false)
-  const { data: accountData } = useAccount()
-  const { data: ensNameData } = useEnsName({ address: accountData?.address })
+  const { data: accountData } = useAccount();
 
-  function checkRights(): boolean | undefined {
-    if (addresses.filter(address => address.Address === accountData?.address).length > 0) return true
-    //return false
+  function checkRights(): boolean {
+    if (addresses.filter((address) => address.Address === accountData?.address).length > 0) {
+      return true;
+    }
+    return false;
   }
 
   const links = dataLinks.map((item) => (
     <Link href={item.link} key={item.link} passHref>
       <a
         className={cx(classes.link, { [classes.linkActive]: item.label === active })}
-        onClick={(event) => {
+        onClick={() => {
           setActive(item.label);
         }}
       >
@@ -142,26 +133,26 @@ export function MainLinks({ opened = false }: Props) {
           {links}
         </Navbar.Section>
 
-        <Navbar.Section className={classes.footer} >
-
-          <div /* hidden={!checkRights()} */ style={checkRights() ?{ display: 'block' } : { display: 'none' }}>
-            <Link href='/addevent' passHref >
-              <a className={classes.link} /* onClick={(event) => event.preventDefault()} */>
+        <Navbar.Section className={classes.footer}>
+          <div
+            /* hidden={!checkRights()} */ style={
+              checkRights() ? { display: 'block' } : { display: 'none' }
+            }
+          >
+            <Link href="/addevent" passHref>
+              <a className={classes.link}>
                 <CirclePlus className={classes.linkIcon} />
                 <span>Add Event</span>
               </a>
             </Link>
           </div>
-
-
         </Navbar.Section>
       </Box>
       <div className={classes.ethButton}>
-        <ConnectButton chainStatus='icon' accountStatus='full' showBalance={false} />
+        <ConnectButton chainStatus="icon" accountStatus="full" showBalance={false} />
       </div>
     </Navbar>
   );
 }
-
 
 export default MainLinks;
