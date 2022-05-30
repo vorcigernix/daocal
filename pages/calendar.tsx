@@ -1,16 +1,8 @@
 import { ReactNode, useState } from 'react';
 import { Calendar } from '@mantine/dates';
-import {
-  createStyles,
-  Indicator,
-  Grid,
-  MediaQuery,
-  Text,
-  Stack,
-  Checkbox,
-  Group,
-} from '@mantine/core';
+import { createStyles, Indicator, Grid, MediaQuery, Text, Checkbox, Group } from '@mantine/core';
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { useLocalStorage } from '@mantine/hooks';
 import { BadgeCard } from '../components/Card/Card';
 import defaultEvent from '../public/defaultEvent.json';
@@ -41,8 +33,6 @@ export default function EventCalendar() {
 
   function CalendarChange(e: string | number | Date | null) {
     e && setValue(new Date(e));
-
-    const customParseFormat = require('dayjs/plugin/customParseFormat');
     dayjs.extend(customParseFormat);
     //let selectEvents = Events.filter(event => dayjs(e).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
     let selectEvents;
@@ -58,22 +48,19 @@ export default function EventCalendar() {
       );
     }
     if (selectEvents.length !== 0) {
-      {
-        selectEvents.map((item, i) =>
-          cards.push(
-            <BadgeCard
-              key={item.Name + i}
-              image={item.Image}
-              title={item.Name}
-              dao={item.DAO}
-              eventtime={item.Start}
-              description={item.Description}
-              badges={item.Badges}
-            />
-          )
-        );
-      }
-      //console.log(cards);
+      selectEvents.map((item, i) =>
+        cards.push(
+          <BadgeCard
+            key={item.Name + i}
+            image={item.Image}
+            title={item.Name}
+            dao={item.DAO}
+            eventtime={item.Start}
+            description={item.Description}
+            badges={item.Badges}
+          />
+        )
+      );
     } else {
       cards.push(
         <DefaultCard
@@ -108,7 +95,6 @@ export default function EventCalendar() {
           })}
           renderDay={(date) => {
             const day = dayjs(date);
-            var customParseFormat = require('dayjs/plugin/customParseFormat');
             dayjs.extend(customParseFormat);
             //console.log((dayjs("05/18/2022 @ 8:00am", "MM/DD/YYYY @ h:mma")));
             //console.log(day);
