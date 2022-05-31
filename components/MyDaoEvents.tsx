@@ -7,7 +7,7 @@ interface DaoEventProps {
 }
 
 export default function MyDaoEvents({ mydaos }: DaoEventProps) {
-  const selectedEvents = Events.filter((event) => mydaos.includes(event.DAO));
+  const selectedEvents = Events.filter((event) => mydaos?.includes(event.DAO));
   //console.log(selectedEvents)
   const cards: ReactNode[] = [];
   selectedEvents &&

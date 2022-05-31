@@ -16,6 +16,10 @@ const useStyles = createStyles(() => ({
   daystyle: {
     lineHeight: 1,
   },
+  eventdaysyle: {
+    fontWeight: 'bold',
+    color: '#dcf4b9',
+  },
   cellstyle: {
     height: '100%',
   },
@@ -34,13 +38,12 @@ export default function EventCalendar() {
   function CalendarChange(e: string | number | Date | null) {
     e && setValue(new Date(e));
     dayjs.extend(customParseFormat);
-    //let selectEvents = Events.filter(event => dayjs(e).isSame(dayjs(event.Start, "MM/DD/YYYY @ h:mma"), "day"))
     let selectEvents;
     if (myDaosOnly) {
       selectEvents = Events.filter(
         (event) =>
           dayjs(e).isSame(dayjs(event.Start, 'MM/DD/YYYY @ h:mma'), 'day') &&
-          myDAOs.includes(event.DAO)
+          myDAOs?.includes(event.DAO)
       );
     } else {
       selectEvents = Events.filter((event) =>
@@ -91,6 +94,7 @@ export default function EventCalendar() {
               fontSize: theme.fontSizes.sm,
               overflow: 'hidden',
               padding: theme.spacing.sm,
+              borderRadius: theme.radius.lg,
             },
           })}
           renderDay={(date) => {
@@ -103,7 +107,7 @@ export default function EventCalendar() {
               todayEvents = Events.filter(
                 (event) =>
                   dayjs(day).isSame(dayjs(event.Start, 'MM/DD/YYYY @ h:mma'), 'day') &&
-                  myDAOs.includes(event.DAO)
+                  myDAOs?.includes(event.DAO)
               );
             } else {
               todayEvents = Events.filter((event) =>
@@ -120,7 +124,7 @@ export default function EventCalendar() {
                       spacing="xs"
                       className={classes.cellstyle}
                     >
-                      <div className={classes.daystyle}>{day.date().toString()}</div>
+                      <div className={classes.daystyle}><span className={classes.eventdaysyle}>{day.date().toString()}</span></div>
                       {todayEvents.map((todayEvent, i) => (
                         <Text className={classes.eventName} key={i} align="left" lineClamp={1}>
                           {todayEvent.Name}
